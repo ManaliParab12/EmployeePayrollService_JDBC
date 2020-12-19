@@ -35,17 +35,19 @@ public class EmployeePayrollService {
         double salary = consoleInputReader.nextDouble();
         employeepayrollList.add(new EmployeePayrollData(id, name, salary));
     }
-    
+
+    public List<EmployeePayrollData> readEmployeePayrollData(IOService ioService){
+        if (ioService.equals(IOService.DB_IO))
+            this.employeepayrollList = new EmployeePayrollDBService().readData();
+        return employeepayrollList;
+
+    }
+
     public void writeEmployeePayrollData(IOService ioService) {
         if (ioService.equals(IOService.CONSOLE_IO))
             System.out.println("\n Writting Employee payroll to Console\n" + employeepayrollList);
         else if (ioService.equals(IOService.FILE_IO))
             new EmployeePayrollFileIOService().writeData(employeepayrollList);
-    }
-    public long readEmployeePayrollData(IOService ioService) {
-        if (ioService.equals(IOService.FILE_IO))
-            this.employeepayrollList = new EmployeePayrollFileIOService().readData();
-        return employeepayrollList.size();
     }
 
     public void printData(IOService ioService) {
