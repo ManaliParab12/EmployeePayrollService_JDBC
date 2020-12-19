@@ -1,6 +1,7 @@
 package employeepayrollservice;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class EmployeePayrollData {
 
@@ -27,5 +28,15 @@ public class EmployeePayrollData {
                 ", salary=" + salary +
                 ", startDate=" + startDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EmployeePayrollData that = (EmployeePayrollData) o;
+        return id == that.id &&
+                Double.compare(that.salary, salary) == 0 &&
+                name.equals(that.name);
     }
 }
