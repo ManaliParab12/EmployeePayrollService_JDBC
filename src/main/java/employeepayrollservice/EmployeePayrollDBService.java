@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeePayrollDBService {
-
     private PreparedStatement employeePayrollDataStatement;
     private static EmployeePayrollDBService employeePayrollDBService;
     private EmployeePayrollDBService() {
