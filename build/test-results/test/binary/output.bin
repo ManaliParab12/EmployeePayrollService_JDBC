@@ -1,6 +1,4 @@
 RConnectinng to database:jdbc:mysql://localhost:3306/payroll_service?useSSL=false
-AConnection is successful!!!com.mysql.jdbc.JDBC4Connection@19577
+BConnection is successful!!!com.mysql.jdbc.JDBC4Connection@1db07f
 RConnectinng to database:jdbc:mysql://localhost:3306/payroll_service?useSSL=false
-BConnection is successful!!!com.mysql.jdbc.JDBC4Connection@a84633
-RConnectinng to database:jdbc:mysql://localhost:3306/payroll_service?useSSL=false
-CConnection is successful!!!com.mysql.jdbc.JDBC4Connection@1ef2d9a
+BConnection is successful!!!com.mysql.jdbc.JDBC4Connection@326c3f
