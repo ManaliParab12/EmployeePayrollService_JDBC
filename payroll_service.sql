@@ -37,3 +37,5 @@ UPDATE employee_payroll SET gender = 'M' WHERE name = 'Bill' OR name = 'Charlie'
 SELECT gender, AVG(salary) AS avg_salary FROM employee_payroll GROUP BY gender;
 
 UC_7
+INSERT INTO employee_payroll (name, gender, salary, startDate) VALUES ('Mark', 'M', 5000000, date(now()));
+DELETE FROM employee_payroll WHERE name = 'Mark';

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class EmployeePayrollService {
+
     public enum IOService {CONSOLE_IO, FILE_IO, DB_IO, REST_IO}
 
     private List<EmployeePayrollData> employeepayrollList;
@@ -75,6 +76,11 @@ public class EmployeePayrollService {
                 .findFirst()
                 .orElse(null);
     }
+
+    public void addEmployeeTOPayroll(String name, String gender, double salary, LocalDate startDate ) {
+        employeepayrollList.add(employeePayrollDBService.addEmployeeToPayroll(name, gender, salary, startDate));
+    }
+
 
     public void writeEmployeePayrollData(IOService ioService) {
         if (ioService.equals(IOService.CONSOLE_IO))
