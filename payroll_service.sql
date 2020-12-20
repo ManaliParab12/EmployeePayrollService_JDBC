@@ -20,3 +20,20 @@ INSERT INTO employee_payroll(name, salary, startDate) VALUES
 
 UC_2
 SELECT * FROM employee_payroll;
+
+UC_3
+UPDATE employee_payroll set salary = %.2f WHERE name = '%s';
+
+UC_4
+UPDATE employee_payroll set salary = %.2f WHERE name = '%s';
+UC_5
+SELECT * FROM employee_payroll WHERE startDate BETWEEN '%s' AND '%s';
+
+UC_6
+ALTER TABLE employee_payroll ADD gender CHAR(2) AFTER name;
+UPDATE employee_payroll SET gender = 'F' WHERE name = 'Terisa';
+UPDATE employee_payroll SET gender = 'M' WHERE name = 'Bill' OR name = 'Charlie';
+
+SELECT gender, AVG(salary) AS avg_salary FROM employee_payroll GROUP BY gender;
+
+UC_7

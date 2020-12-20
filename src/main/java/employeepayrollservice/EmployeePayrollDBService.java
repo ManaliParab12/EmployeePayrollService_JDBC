@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeePayrollDBService {
     private PreparedStatement employeePayrollDataStatement;
@@ -34,6 +36,41 @@ public class EmployeePayrollDBService {
         return this.getEmployeePayrollDataUsingDB(sql);
     }
 
+    public List<EmployeePayrollData> getEmployeePayrollForDateRange(LocalDate startDate, LocalDate endDate) {
+        String sql = String.format("SELECT * FROM employee_payroll WHERE startDate BETWEEN '%s' AND '%s';",
+                Date.valueOf(startDate), Date.valueOf(endDate));
+        return this.getEmployeePayrollDataUsingDB(sql);
+    }
+
+    public Map<String, Double> getAverageSalaryByGender() {
+        String sql = "SELECT gender, AVG(salary) as avg_salary FROM employee_payroll GROUP BY gender;";
+        Map<String, Double> genderToAverageSalaryMap = new HashMap<>();
+        try (Connection connection = this.getConnection()) {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                String gender = resultSet.getString("gender");
+                double salary = resultSet.getDouble("avg_salary");
+                genderToAverageSalaryMap.put(gender, salary);
+            }
+        } catch ( SQLException e) {
+            e.printStackTrace();
+        }
+        return genderToAverageSalaryMap;
+    }
+
+    private List<EmployeePayrollData> getEmployeePayrollDataUsingDB(String sql) {
+        List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
+        try (Connection connection = this.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            employeePayrollList = this.getEmployeePayrollData(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return employeePayrollList;
+    }
+
     public List<EmployeePayrollData> getEmployeePayrollData(String name) {
         List<EmployeePayrollData> employeePayrollList = null;
         if(this.employeePayrollDataStatement == null)
@@ -48,24 +85,6 @@ public class EmployeePayrollDBService {
         return employeePayrollList;
     }
 
-    public List<EmployeePayrollData> getEmployeePayrollForDateRange(LocalDate startDate, LocalDate endDate) {
-        String sql = String.format("SELECT * FROM employee_payroll WHERE startDate BETWEEN '%s' AND '%s';",
-                Date.valueOf(startDate), Date.valueOf(endDate));
-        return this.getEmployeePayrollDataUsingDB(sql);
-
-    }
-
-    private List<EmployeePayrollData> getEmployeePayrollDataUsingDB(String sql) {
-        List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
-        try (Connection connection = this.getConnection()){
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            employeePayrollList = this.getEmployeePayrollData(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return employeePayrollList;
-    }
 
     private List<EmployeePayrollData> getEmployeePayrollData(ResultSet resultSet) {
         List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
@@ -98,7 +117,7 @@ public class EmployeePayrollDBService {
     }
 
     private int updateEmployeeDataUsingStatement(String name, double salary) {
-        String sql = String.format("update employee_payroll set salary = %.2f where name = '%s';", salary, name);
+        String sql = String.format("UPDATE employee_payroll set salary = %.2f WHERE name = '%s';", salary, name);
         try (Connection connection = this.getConnection()) {
             Statement statement = connection.createStatement();
             return statement.executeUpdate(sql);
@@ -107,5 +126,7 @@ public class EmployeePayrollDBService {
         }
         return 0;
     }
+
+
 }
 
