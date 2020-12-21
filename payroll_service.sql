@@ -39,3 +39,33 @@ SELECT gender, AVG(salary) AS avg_salary FROM employee_payroll GROUP BY gender;
 UC_7
 INSERT INTO employee_payroll (name, gender, salary, startDate) VALUES ('Mark', 'M', 5000000, date(now()));
 DELETE FROM employee_payroll WHERE name = 'Mark';
+
+UC_8
+CREATE TABLE payroll_details
+(
+id INT UNSIGNED NOT NULL,
+basic_pay DOUBLE NOT NULL,
+deductions DOUBLE NOT NULL,
+taxable_pay DOUBLE NOT NULL,
+tax DOUBLE NOT NULL,
+net_pay DOUBLE NOT NULL,
+FOREIGN KEY (id) REFERENCES employee_payroll (id)
+ON DELETE CASCADE
+);
+
+DELETE FROM employee_payroll WHERE name = 'Mark';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
